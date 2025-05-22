@@ -29,7 +29,7 @@
                 type="checkbox"
                 :id="`task-${note.id}-${index}`"
                 v-model="task.completed"
-                class="h-4 w-4 rounded border-gray-300 text-blue-500 mt-0.5 flex-shrink-0"
+                class="h-4 w-4 rounded border-gray-100 text-blue-500 mt-0.5 flex-shrink-0"
               />
               <label
                 :for="`task-${note.id}-${index}`"
