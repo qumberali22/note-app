@@ -50,7 +50,7 @@ const showFilters = ref(false);
 const showAddForm = ref(false);
 
 const filters = ref({
-  selectedType: "all",
+  selectedTypes: ["all"],
 });
 
 const toggleFilters = () => {
@@ -58,8 +58,10 @@ const toggleFilters = () => {
 };
 
 const filteredNotes = computed(() => {
-  if (filters.value.selectedType === "all") return notes.value;
-  return notes.value.filter((note) => note.type === filters.value.selectedType);
+  if (filters.value.selectedTypes.includes("all")) return notes.value;
+  return notes.value.filter(
+    (note) => filters.value.selectedTypes.includes(note.type) // Requires adding type to notes
+  );
 });
 
 // Keep your existing notes array here

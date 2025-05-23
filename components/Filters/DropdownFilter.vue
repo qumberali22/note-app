@@ -25,10 +25,11 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import { FILTER_OPTIONS } from "./constant";
 
 const props = defineProps({
   modelValue: {
-    type: Array,
+    type: [Array, String],
     default: () => ["all"],
   },
   isOpen: Boolean,
@@ -36,12 +37,7 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
-const filterOptions = [
-  { value: "all", label: "All" },
-  { value: "type1", label: "Type 1" },
-  { value: "type2", label: "Type 2" },
-  { value: "type3", label: "Type 3" },
-];
+const filterOptions = FILTER_OPTIONS;
 
 const selectedValues = ref([...props.modelValue]);
 
