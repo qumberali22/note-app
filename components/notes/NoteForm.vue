@@ -19,7 +19,7 @@
     <div class="bg-white rounded-xl shadow-lg w-full max-w-md overflow-hidden">
       <div class="flex justify-between items-center px-6 pt-6 pb-4">
         <h2 class="text-2xl font-semibold text-gray-900">
-          {{ isEditing ? "Edit Note" : "Edit Cart" }}
+          {{ isEditing ? "Edit Note" : "Add New Note" }}
         </h2>
         <button
           @click="close"
@@ -30,28 +30,21 @@
       </div>
 
       <div class="px-6 space-y-4">
-        <BaseSelect
-          v-model="noteType"
-          :label="`Select type of ${isEditing ? 'note' : 'card'}`"
-        >
-          <option value="0">
-            {{
-              isEditing ? "Default (Title & Description)" : "Default Cart Style"
-            }}
-          </option>
+        <BaseSelect v-model="noteType" :label="`Select type of note`">
+          <option value="0">Default (Title & Description)</option>
           <option value="1">Image (Title, Description & Image)</option>
           <option value="2">Checklist (Title, Description & Tasks)</option>
         </BaseSelect>
         <BaseInput
           v-model="note.title"
-          label="Header"
+          label="Title"
           placeholder="Enter note title"
         />
         <ImageUploader v-if="noteType === '1'" v-model="note.image" />
         <BaseTextarea
           v-model="note.content"
           label="Description"
-          placeholder="Text Placeholder"
+          placeholder="Enter note description"
           :rows="4"
         />
         <ChecklistManager v-if="noteType === '2'" v-model="note.tasks" />
@@ -92,7 +85,7 @@ import BaseTextarea from "../ui/BaseTextarea.vue";
 import BaseSelect from "../ui/BaseSelect.vue";
 import ImageUploader from "./ImageUploader.vue";
 import ChecklistManager from "./ChecklistManager.vue";
-import BaseDialog from "../ui/BaseDialog";
+import BaseDialog from "../ui/BaseDialog.vue";
 import {
   TrashIcon,
   DocumentArrowDownIcon,
@@ -175,6 +168,7 @@ function resetForm() {
     date: "",
   };
   noteType.value = "0";
+  showDeleteConfirmation.value = false;
 }
 
 function saveNote() {

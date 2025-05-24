@@ -49,7 +49,6 @@ const props = defineProps({
 
 defineEmits(["click"]);
 
-// Computed property for button classes and styles
 const buttonClasses = computed(() => {
   const baseClasses = [
     "inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors",
@@ -57,7 +56,6 @@ const buttonClasses = computed(() => {
     "disabled:pointer-events-none disabled:opacity-50",
   ];
 
-  // Variant classes
   const variantClasses = {
     default: "text-white hover:opacity-90",
     destructive: "bg-red-600 text-white hover:bg-red-700",
@@ -67,7 +65,6 @@ const buttonClasses = computed(() => {
     link: "text-blue-600 underline-offset-4 hover:underline",
   };
 
-  // Size classes
   const sizeClasses = {
     default: "h-10 px-4 py-2",
     sm: "h-9 px-3",
@@ -85,7 +82,6 @@ const buttonClasses = computed(() => {
     .join(" ");
 });
 
-// Computed property for inline styles
 const buttonStyles = computed(() => {
   const styles = {};
 

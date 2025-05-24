@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       v-if="isOpen"
-      class="absolute right-0 mt-2 w-30 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10"
+      class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10"
     >
       <div class="p-2 space-y-2">
         <label
@@ -12,9 +12,9 @@
         >
           <input
             type="checkbox"
-            v-model="selectedValues"
-            :value="option.value"
-            class="h-4 w-4 text-blue-500 border-gray-300 rounded"
+            :checked="isOptionSelected(option.value)"
+            @change="handleOptionChange(option.value)"
+            class="h-4 w-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
           />
           <span class="ml-2 text-sm text-gray-700">{{ option.label }}</span>
         </label>
@@ -29,23 +29,53 @@ import { FILTER_OPTIONS } from "./constant";
 
 const props = defineProps({
   modelValue: {
-    type: [Array, String],
+    type: Array,
     default: () => ["all"],
   },
   isOpen: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue"]);
-
 const filterOptions = FILTER_OPTIONS;
-
 const selectedValues = ref([...props.modelValue]);
-
 watch(
-  selectedValues,
+  () => props.modelValue,
   (newVal) => {
-    emit("update:modelValue", newVal);
-  },
-  { deep: true }
+    selectedValues.value = [...newVal];
+  }
 );
+
+const isOptionSelected = (value) => {
+  return selectedValues.value.includes(value);
+};
+
+const handleOptionChange = (value) => {
+  if (value === "all") {
+    selectedValues.value = ["all"];
+  } else {
+    const currentIndex = selectedValues.value.indexOf(value);
+    if (currentIndex > -1) {
+      selectedValues.value.splice(currentIndex, 1);
+      if (
+        selectedValues.value.length === 0 ||
+        (selectedValues.value.length === 1 && selectedValues.value[0] === "all")
+      ) {
+        selectedValues.value = ["all"];
+      } else {
+        const allIndex = selectedValues.value.indexOf("all");
+        if (allIndex > -1) {
+          selectedValues.value.splice(allIndex, 1);
+        }
+      }
+    } else {
+      const allIndex = selectedValues.value.indexOf("all");
+      if (allIndex > -1) {
+        selectedValues.value.splice(allIndex, 1);
+      }
+      selectedValues.value.push(value);
+    }
+  }
+
+  emit("update:modelValue", [...selectedValues.value]);
+};
 </script>
